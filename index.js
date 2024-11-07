@@ -7,8 +7,6 @@
 // import the JSON data about the crowd funded games from the games.js file
 import GAMES_DATA from './games.js';
 
-
-
 // create a list of objects to store the data about the games using JSON.parse
 const GAMES_JSON = JSON.parse(GAMES_DATA);
 
@@ -27,6 +25,8 @@ function populateDropdown() {
     });
 }
 populateDropdown();
+
+
 
 
 // remove all child elements from a parent element in the DOM
@@ -155,7 +155,7 @@ const gamesCard = GAMES_JSON.reduce((acc, game) => {
 let gb = GAMES_JSON.filter ( (game) => {
     return game.pledged < game.goal;
 });
-console.log(gb.length + " many underFunded");
+//console.log(gb.length + " many underFunded");
 // show only games that do not yet have enough funding
 function filterUnfundedOnly() {
     deleteChildElements(gamesContainer);
@@ -163,7 +163,7 @@ function filterUnfundedOnly() {
     let unfunded = GAMES_JSON.filter ( (game) => {
         return game.pledged < game.goal;
     });
-    console.log(unfunded.length);
+    //console.log(unfunded.length);
     addGamesToPage(unfunded);
 
 
@@ -193,7 +193,7 @@ function filterFundedOnly() {
     let funded = GAMES_JSON.filter ( (game) => {
         return game.pledged > game.goal;
     });
-    console.log(funded.length);
+    //console.log(funded.length);
     addGamesToPage(funded);
     
 
