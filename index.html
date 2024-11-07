@@ -18,23 +18,59 @@
     <div id="description-container">
         <p id="lol">The purpose of our company is to fund independent games. We've been in operation for 12 years.</p>
     </div>
+    <h3 id="proposal">Would you like to fund our work?</h3>
+    <form id="fund-project">
+        
+        
+        
+        <label for="donor-name">Kind donor name:</label>
+        <input type="text" id="donor-name" placeholder="Enter your name">
+    
+        <br>
+    
+        
+        <label for="donation-amount">Amount to donate:</label>
+        <input type="number" id="donation-amount" placeholder="Enter donation amount">
+    
+        <br>
+    
+       
+        <label for="card-number">Credit Card Number:</label>
+        <input type="text" id="card-number" placeholder="Enter credit card number" required>
+    
+        <br>
+    
+        
+        <label for="security-code">Security Code:</label>
+        <input type="text" id="security-code" name="security-code" placeholder="Enter security code" pattern="\d{3}" maxlength="3" required>
+        <br>
+        <select id="project" name="project">
+
+        </select>
+
+        <button type="submit" id = "submit">Submit Donation</button>
+    
+    </form>
 
     <!-- top games & other interesting stats -->
     <h2>Stats</h2>
     <div class="stats-container">
         <div class="stats-card">
             <h3>Individual Contributions</h3>
+            <h4 id="contributions"></h4>
             <p id="num-contributions">
                 <h1 id="SHOW"></h1>
             </p>
         </div>
         <div class="stats-card">
             <h3>Total Raised</h3>
-            <p id="total-raised">
-            </p>
+            <h3 id ="total-raised">
+                <h4 id="raised"></h4>
+            </h3>
         </div>
-        <div class="stats-card">
+        <div class="stats-card" id="numGames">
             <h3>Total Number of Games</h3>
+            <h4>11</h4>
             <p id="num-games">
             </p>
         </div>
@@ -42,9 +78,11 @@
     <div class="stats-container" id="top-games">
         <div class="stats-card" id="first-game">
             <h3>🥇 Top Funded Game</h3>
+            <h4 id="topFunded"></h4>
         </div>
         <div class="stats-card" id="second-game">
             <h3>🥈 Runner Up</h3>
+            <h4 id="secondFunded"></h4>
         </div>
     </div>
 

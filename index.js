@@ -7,15 +7,45 @@
 // import the JSON data about the crowd funded games from the games.js file
 import GAMES_DATA from './games.js';
 
+
+
 // create a list of objects to store the data about the games using JSON.parse
 const GAMES_JSON = JSON.parse(GAMES_DATA);
 
+
+function populateDropdown() {
+    const dropdown = document.getElementById('project');
+    let underfunded = GAMES_JSON.filter ( (game) => {
+        return game.pledged < game.goal;
+    });
+
+    underfunded.forEach(game => {
+        const option = document.createElement('option');
+        option.value = game.name;
+        option.textContent = game.name;
+        dropdown.appendChild(option);
+    });
+}
+populateDropdown();
+
+
 // remove all child elements from a parent element in the DOM
 function deleteChildElements(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
+    // while (parent.firstChild) {
+    //     parent.removeChild(parent.firstChild);
+    // }
+    document.querySelectorAll('.game-card').forEach(element => element.remove());
 }
+
+let fund = GAMES_JSON.filter ( (game) => {
+    return game.pledged > game.goal;
+});
+let first = document.getElementById("topFunded");
+let second = document.getElementById("secondFunded");
+first.textContent = fund[0].name;
+second.textContent = fund[1].name;
+
+
 
 /*****************************************************************************
  * Challenge 3: Add data about each game as a card to the games-container
@@ -27,28 +57,39 @@ const gamesContainer = document.getElementById("games-container");
 
 // create a function that adds all data from the games array to the page
 function addGamesToPage(games) {
-    const h2Element = document.getElementById('games');
+    let gamesContainer = document.getElementById('games-container');
+
+    if (!gamesContainer) {
+        gamesContainer = document.createElement('div');
+        gamesContainer.id = 'games-container';
+        gamesContainer.style.display = 'grid';
+        gamesContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        document.body.appendChild(gamesContainer);
+    }
     
-    for (let i = 0; i < games.length; i++) {
+    games.forEach(game => {
         let g = document.createElement('div');
         g.classList.add('game-card');
 
-        let game = games[i];
-        
-        // Use template literals correctly with backticks and ${}
+        g.style.backgroundColor = 'white';
+        g.style.textAlign = 'center';
+        g.style.borderRadius = '7px';
+        g.style.boxSizing = 'border-box';
+
         g.innerHTML = `<h1>The game ${game.name} intends to hit ${game.goal} users by the end of the month!</h1>`;
         
-        // Add the image if game.img exists
         if (game.img) {
             let img = document.createElement('img');
             img.src = game.img;
             img.alt = `${game.name} image`;
+            img.style.width = '90%';
+            img.style.height = 'auto';
+            img.style.borderRadius = '5px';
             g.appendChild(img);
         }
-        
-        // Insert the new game card after the h2 element
-        h2Element.insertAdjacentElement('afterend', g);
-    }
+
+        gamesContainer.appendChild(g);
+    });
 }
 //addGamesToPage(GAMES_JSON);
 
@@ -85,6 +126,8 @@ function addGamesToPage(games) {
 const contributionsCard = GAMES_JSON.reduce((acc, game) => {
     return acc + game.backers;
 }, 0);
+let contributions = document.getElementById('contributions');
+contributions.textContent = contributionsCard.toString().toLocaleString();
 //console.log("Amount contributed: " + contributionsCard + "\n");
 
 // use reduce() to count the number of total contributions by summing the backers
@@ -97,6 +140,8 @@ const contributionsCard = GAMES_JSON.reduce((acc, game) => {
 const raisedCard = GAMES_JSON.reduce((acc, game) => {
     return acc + game.pledged;
 }, 0);
+let raised = document.getElementById("raised");
+raised.textContent = "$" + raisedCard.toLocaleString();
 //console.log("amount raised: " + raisedCard + "\n");
 
 // set inner HTML using template literal
@@ -106,14 +151,7 @@ const raisedCard = GAMES_JSON.reduce((acc, game) => {
 const gamesCard = GAMES_JSON.reduce((acc, game) => {
     return acc + 1;
 }, 0);
-//console.log(gamesCard);
 
-
-/*************************************************************************************
- * Challenge 5: Add functions to filter the funded and unfunded games
- * total number of contributions, amount donated, and number of games on the site.
- * Skills used: functions, filter
-*/
 let gb = GAMES_JSON.filter ( (game) => {
     return game.pledged < game.goal;
 });
@@ -128,12 +166,6 @@ function filterUnfundedOnly() {
     console.log(unfunded.length);
     addGamesToPage(unfunded);
 
-
-
-    // use filter() to get a list of games that have not yet met their goal
-
-
-    // use the function we previously created to add the unfunded games to the DOM
 
 }
 let amtUnfunded = GAMES_JSON.reduce((acc, game) => {
@@ -178,40 +210,30 @@ function showAllGames() {
     // add all games from the JSON data to the DOM
 }
 
+function scrollToGames() {
+    addGamesToPage(GAMES_JSON);
+    document.getElementById('games').scrollIntoView({
+      behavior: 'smooth'
+    });
+}
+
 // select each button in the "Our Games" section
 const unfundedBtn = document.getElementById("unfunded-btn");
 const fundedBtn = document.getElementById("funded-btn");
 const allBtn = document.getElementById("all-btn");
+const showGames = document.getElementById("numGames");
 
 
 unfundedBtn.addEventListener("click", filterUnfundedOnly);
 fundedBtn.addEventListener("click", filterFundedOnly);
 allBtn.addEventListener("click", showAllGames);
+showGames.addEventListener("click", scrollToGames);
 
 
-// add event listeners with the correct functions to each button
 
-
-/*************************************************************************************
- * Challenge 6: Add more information at the top of the page about the company.
- * Skills used: template literals, ternary operator
-*/
-
-// grab the description container
 const descriptionContainer = document.getElementById("description-container");
 
-// use filter or reduce to count the number of unfunded games
 
-
-// create a string that explains the number of unfunded games using the ternary operator
-
-
-// create a new DOM element containing the template string and append it to the description container
-
-/************************************************************************************
- * Challenge 7: Select & display the top 2 games
- * Skills used: spread operator, destructuring, template literals, sort 
- */
 
 const firstGameContainer = document.getElementById("first-game");
 const secondGameContainer = document.getElementById("second-game");
@@ -219,9 +241,29 @@ const secondGameContainer = document.getElementById("second-game");
 const sortedGames =  GAMES_JSON.sort( (item1, item2) => {
     return item2.pledged - item1.pledged;
 });
+let topRated = document.createElement('h4');
+topRated.textContent = sortedGames[0].name + "is our highest rated game!";
+let firstGame = document.getElementById("first-game");
+firstGame.appendChild(topRated);
+let secondTop = document.createElement('h4');
+secondTop.textContent = sortedGames[1].name + "is our second highest rated game!";
 
-// use destructuring and the spread operator to grab the first and second games
 
-// create a new element to hold the name of the top pledge game, then append it to the correct element
+//Handling the donation form
+const donationForm = document.getElementById('fund-project');
 
-// do the same for the runner up item
+donationForm.addEventListener('submit', (event) => {
+    event.preventDefault(); 
+
+    const donorName = document.getElementById('donor-name').value;
+    const donationAmount = document.getElementById('donation-amount').value;
+    const cardNumber = document.getElementById('card-number').value;
+    const securityCode = document.getElementById('security-code').value;
+    const gameOption = document.getElementById('project').value
+
+    
+    console.log(`Donor: ${donorName}, Amount: $${donationAmount}, Card Number: ${cardNumber}, Security Code: ${securityCode}` + "-- ready to be processed by back-end");
+    alert(`Thank you for the donation! We appreciate your anticipation and hope to publish ${gameOption} soon!`);
+
+    donationForm.reset();
+});

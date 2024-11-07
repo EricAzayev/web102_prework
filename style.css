@@ -3,12 +3,35 @@
 body {
     font-family: 'Cabin';
     background-color: #758190;
+    overflow-x: hidden;
 }
 
 #tentacles {
     width: 50px;
 }
+.header{
+    background-image: url('seafloor.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#proposal{
+    text-align: center;
+}
+#fund-project{
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
 
+#submit{
+    margin: 20px auto;
+    padding: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
 
 .stats-container{
     display: flex;
@@ -35,6 +58,7 @@ body {
 }
 
 .stats-card {
+    height:100px;
     background-color: #a8b0bc;
     border-radius: 7px;
     padding: 1%;
@@ -47,10 +71,10 @@ body {
     font-size: 50px;
 }
 
-#games-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; 
+
+#numGames:hover{
+    cursor: pointer;
+    box-shadow: 0 0 30px lightblue;
 }
 
 .game-img {
@@ -61,20 +85,26 @@ body {
     object-fit: contain;  
 }
 
+#games-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .game-card {
     background-color: #FFFFFF;
     padding: 1%;
     margin: 1%;
-    width: 300px;
+    width: calc(33.33% - 2%); 
     text-align: center;
     border-radius: 7px;
+    box-sizing: border-box; 
 }
 
 .game-card:hover {
     cursor: pointer;
     box-shadow: 0 0 30px lightblue;
 }
-
 #button-container {
     text-align: center;
 }
