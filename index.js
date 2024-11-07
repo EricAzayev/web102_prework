@@ -211,6 +211,8 @@ function showAllGames() {
 }
 
 function scrollToGames() {
+    deleteChildElements(gamesContainer);
+    
     addGamesToPage(GAMES_JSON);
     document.getElementById('games').scrollIntoView({
       behavior: 'smooth'
